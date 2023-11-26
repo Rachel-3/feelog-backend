@@ -2,6 +2,7 @@ package com.feelog.feelog_backend.controller;
 
 import com.feelog.feelog_backend.model.User;
 import com.feelog.feelog_backend.service.UserService;
+import com.feelog.feelog_backend.util.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         System.out.println("Registering user: " + user.getEmail()); // 로그 출력
@@ -22,12 +26,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestBody User loginUser) {
+    public ResponseEntity<String> loginUser(@RequestBody User loginUser) {
         User user = userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        // JWT 토큰 생성
+        String token = jwtTokenProvider.generateToken(user);
+        return ResponseEntity.ok(token); // 토큰 반환
     }
 }

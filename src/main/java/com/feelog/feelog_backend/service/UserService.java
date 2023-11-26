@@ -2,7 +2,9 @@ package com.feelog.feelog_backend.service;
 
 import com.feelog.feelog_backend.model.User;
 import com.feelog.feelog_backend.repository.UserRepository;
+import com.feelog.feelog_backend.util.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.regex.Pattern;
@@ -15,6 +17,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public User registerUser(String email, String name, String password) {
         validateEmail(email);
