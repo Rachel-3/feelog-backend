@@ -2,6 +2,8 @@ package com.feelog.feelog_backend.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,6 +18,7 @@ public class Diary {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @Column(nullable = false)
     private String title;
 
@@ -27,8 +30,10 @@ public class Diary {
 
     @PrePersist
     protected void onCreate() {
-        creationDate = LocalDateTime.now();
+        creationDate = ZonedDateTime.now(ZoneId.of("UTC")).toLocalDateTime();
     }
+
+
 
     // 생성자, getter 및 setter
 

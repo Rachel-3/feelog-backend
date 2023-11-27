@@ -10,6 +10,8 @@ import com.feelog.feelog_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiaryService {
 
@@ -84,5 +86,14 @@ public class DiaryService {
     }
 
 
+    // 모든 다이어리를 반환하는 메소드
+    public List<Diary> getAllDiaries() {
+        return diaryRepository.findAll();
+    }
+
+    // 특정 사용자의 다이어리를 반환하는 메소드
+    public List<Diary> getDiariesByUser(Integer userId) {
+        return diaryRepository.findByUserId(userId);
+    }
     // 기타 서비스 메소드들...
 }

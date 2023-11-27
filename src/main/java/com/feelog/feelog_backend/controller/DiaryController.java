@@ -3,8 +3,13 @@ package com.feelog.feelog_backend.controller;
 import com.feelog.feelog_backend.model.Diary;
 import com.feelog.feelog_backend.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/diaries")
@@ -13,12 +18,22 @@ public class DiaryController {
     @Autowired
     private DiaryService diaryService;
 
+    private static final Logger logger = LoggerFactory.getLogger(DiaryController.class);
+
     // 다이어리 작성
     @PostMapping
-    public ResponseEntity<Diary> createDiary(@RequestBody Diary diary) {
-        // User ID를 사용하여 User 객체를 가져오고, Diary 객체에 설정
-        Diary savedDiary = diaryService.saveDiary(diary, diary.getUser().getId());
-        return ResponseEntity.ok(savedDiary);
+    public ResponseEntity<?> createDiary(@RequestBody Diary diary) {
+        try {
+            if (diary.getUser() == null || diary.getUser().getId() == null) {
+                return ResponseEntity.badRequest().body("User 정보가 없습니다.");
+            }
+            Diary savedDiary = diaryService.saveDiary(diary, diary.getUser().getId());
+            return ResponseEntity.ok(savedDiary);
+        } catch (Exception e) {
+            // 로깅 추가
+            logger.error("Diary 생성 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Diary 생성 중 오류가 발생했습니다.");
+        }
     }
 
     // 다이어리 삭제
@@ -34,6 +49,21 @@ public class DiaryController {
         Diary updatedDiary = diaryService.updateDiary(diaryId, diaryDetails);
         return ResponseEntity.ok(updatedDiary);
     }
+
+    /// 모든 다이어리 목록을 반환하는 메소드
+    @GetMapping
+    public ResponseEntity<List<Diary>> getAllDiaries() {
+        List<Diary> diaries = diaryService.getAllDiaries();
+        return ResponseEntity.ok(diaries);
+    }
+
+    // 특정 사용자의 다이어리 목록을 반환하는 메소드
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Diary>> getDiariesByUser(@PathVariable Integer userId) {
+        List<Diary> diaries = diaryService.getDiariesByUser(userId);
+        return ResponseEntity.ok(diaries);
+    }
+
 
     // 기타 메소드들...
 }
