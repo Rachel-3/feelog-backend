@@ -1,6 +1,7 @@
 package com.feelog.feelog_backend.controller;
 
 import com.feelog.feelog_backend.model.Diary;
+import com.feelog.feelog_backend.model.Emotions;
 import com.feelog.feelog_backend.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,6 +64,21 @@ public class DiaryController {
         List<Diary> diaries = diaryService.getDiariesByUser(userId);
         return ResponseEntity.ok(diaries);
     }
+
+    /// 감정 데이터 조회 엔드포인트
+    @GetMapping("/{diaryId}/emotions")
+    public ResponseEntity<?> getDiaryEmotions(@PathVariable Integer diaryId) {
+        try {
+            Emotions emotions = diaryService.getDiaryEmotions(diaryId);
+            return ResponseEntity.ok(emotions);
+        } catch (Exception e) {
+            logger.error("감정 데이터 조회 중 오류 발생", e);
+            // 타입을 ResponseEntity<?>로 변경하여 오류 메시지를 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("감정 데이터 조회 중 오류가 발생했습니다.");
+        }
+    }
+
 
 
     // 기타 메소드들...

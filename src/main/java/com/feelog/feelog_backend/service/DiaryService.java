@@ -27,6 +27,9 @@ public class DiaryService {
     @Autowired
     private EmotionsRepository emotionsRepository;
 
+    @Autowired
+    private FeedbackService feedbackService;
+
     // 다이어리 작성
     public Diary saveDiary(Diary diary, Integer userId) {
 
@@ -49,7 +52,12 @@ public class DiaryService {
 
         emotionsRepository.save(emotions);
 
+        // 감정에 따른 피드백 저장
+        String highestEmotion = sentimentResult.getDocument().getSentiment();
+        feedbackService.getFeedbackForDiary(savedDiary.getId(), highestEmotion);
+
         return savedDiary;
+
     }
 
     // 다이어리 삭제
@@ -95,5 +103,16 @@ public class DiaryService {
     public List<Diary> getDiariesByUser(Integer userId) {
         return diaryRepository.findByUserId(userId);
     }
+
+    // 감정 데이터 조회 메서드
+    public Emotions getDiaryEmotions(Integer diaryId) {
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new RuntimeException("일기를 찾을 수 없습니다: " + diaryId));
+
+        return emotionsRepository.findByDiary(diary)
+                .orElseThrow(() -> new RuntimeException("감정 데이터를 찾을 수 없습니다: " + diaryId));
+    }
+
+
     // 기타 서비스 메소드들...
 }
