@@ -113,6 +113,4 @@ public class DiaryService {
                 .orElseThrow(() -> new RuntimeException("감정 데이터를 찾을 수 없습니다: " + diaryId));
     }
 
-
-    // 기타 서비스 메소드들...
 }

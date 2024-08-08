@@ -20,7 +20,6 @@ public class Emotions {
     private Float negativeScore;
 
     // getters, setters...
-
     public Integer getId() {
         return id;
     }

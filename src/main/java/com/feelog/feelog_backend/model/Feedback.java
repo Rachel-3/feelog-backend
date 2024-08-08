@@ -14,7 +14,6 @@ public class Feedback {
     @Column(name = "feedback_text") // 데이터베이스의 컬럼 이름과 일치하도록 지정
     private String feedbackText; // 필드 이름 변경
 
-    // 기본 생성자
     public Feedback() {}
 
     // getter 및 setter
@@ -41,6 +40,4 @@ public class Feedback {
     public void setFeedbackText(String feedbackText) { // 메소드 이름 변경
         this.feedbackText = feedbackText;
     }
-
-    // ... 필요한 경우 기타 메서드 추가 ...
 }

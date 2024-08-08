@@ -6,7 +6,6 @@ public class SentimentAnalysisResult {
     private Document document;
     private List<Sentence> sentences;
 
-    // Getters and Setters for document and sentences
     public Document getDocument() {
         return document;
     }
@@ -28,7 +27,6 @@ public class SentimentAnalysisResult {
         private String sentiment;
         private Confidence confidence;
 
-        // Getters and Setters for sentiment and confidence
         public String getSentiment() {
             return sentiment;
         }
@@ -84,7 +82,6 @@ public class SentimentAnalysisResult {
         private Float positive;
         private Float negative;
 
-        // Getters and Setters for neutral, positive, and negative
         public Float getNeutral() {
             return neutral;
         }

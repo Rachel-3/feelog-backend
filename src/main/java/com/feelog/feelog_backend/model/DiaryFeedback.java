@@ -18,7 +18,6 @@ public class DiaryFeedback {
     private Feedback feedback;
 
     // ... 생성자, getter, setter
-
     public DiaryFeedback() {
     }
 

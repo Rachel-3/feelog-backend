@@ -22,8 +22,6 @@ public class FeedbackController {
         return ResponseEntity.ok(new FeedbackDto(feedback.getFeedbackId(), feedback.getSentiment(), feedback.getFeedbackText()));
     }
 
-    // ... 기타 코드 ...
-
     // Feedback 데이터를 전달하기 위한 DTO 클래스
     public static class FeedbackDto {
         private Long feedbackId;
@@ -37,7 +35,6 @@ public class FeedbackController {
         }
 
         // getter 및 setter
-        // ...
         public Long getFeedbackId() {
             return feedbackId;
         }

@@ -44,7 +44,6 @@ public class UserService {
         if (password.length() < 8) {
             throw new RuntimeException("비밀번호는 최소 8자 이상이어야 합니다.");
         }
-        // 여기에 추가적인 비밀번호 복잡성 검증 로직을 추가할 수 있습니다.
     }
 
     private boolean emailExists(String email) {
@@ -59,6 +58,4 @@ public class UserService {
         }
         return user;
     }
-
-    // 기타 서비스 메서드 추가
 }

@@ -79,7 +79,4 @@ public class DiaryController {
         }
     }
 
-
-
-    // 기타 메소드들...
 }
